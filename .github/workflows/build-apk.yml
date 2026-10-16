@@ -14,15 +14,9 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - name: Android SDK
-        run: |
-          echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
-          S=$(find "$ANDROID_SDK_ROOT" -name sdkmanager -type f | head -1)
-          yes | "$S" --sdk_root="$ANDROID_SDK_ROOT" --licenses
-          "$S" --sdk_root="$ANDROID_SDK_ROOT" "platform-tools" "platforms;android-35" "build-tools;35.0.0"
       - name: Extract project
         run: unzip -q "NarayaniDeviGirlsCollegeERP-Android-GitHub-Build (1).zip" -d extracted
-      - name: Fix Android source
+      - name: Fix source and icons
         run: |
           find extracted/android -type f ( -name '*.kt' -o -name '*.kts' -o -name '*.xml' ) -exec sed -i 's/in\.ndedu\.erp/com.ndedu.erp/g' {} +
           cp extracted/android/app/src/main/res/drawable/ic_launcher.xml extracted/android/app/src/main/res/drawable/ic_launcher_round.xml
