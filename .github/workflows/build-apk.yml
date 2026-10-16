@@ -27,7 +27,9 @@ jobs:
       - name: Extract Android project
         run: unzip -q "NarayaniDeviGirlsCollegeERP-Android-GitHub-Build (1).zip" -d extracted
       - name: Fix launcher resources
-        run: sed -i 's#@mipmap/ic_launcher#@drawable/ic_launcher#g; s#@mipmap/ic_launcher_round#@drawable/ic_launcher#g' extracted/android/app/src/main/AndroidManifest.xml
+        run: |
+          cp extracted/android/app/src/main/res/drawable/ic_launcher.xml extracted/android/app/src/main/res/drawable/ic_launcher_round.xml
+          sed -i 's#@mipmap/ic_launcher_round#@drawable/ic_launcher_round#g; s#@mipmap/ic_launcher#@drawable/ic_launcher#g' extracted/android/app/src/main/AndroidManifest.xml
       - name: Build APK
         working-directory: extracted/android
         run: gradle assembleDebug --no-daemon
