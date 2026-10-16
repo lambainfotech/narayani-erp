@@ -15,16 +15,11 @@ jobs:
           distribution: temurin
           java-version: '17'
       - name: Extract project
-        run: unzip -q "NarayaniDeviGirlsCollegeERP-Android-GitHub-Build (1).zip" -d extracted
-      - name: Fix source and icons
-        run: |
-          find extracted/android -type f ( -name '*.kt' -o -name '*.kts' -o -name '*.xml' ) -exec sed -i 's/in\.ndedu\.erp/com.ndedu.erp/g' {} +
-          cp extracted/android/app/src/main/res/drawable/ic_launcher.xml extracted/android/app/src/main/res/drawable/ic_launcher_round.xml
-          sed -i 's#@mipmap/ic_launcher_round#@drawable/ic_launcher_round#g; s#@mipmap/ic_launcher#@drawable/ic_launcher#g' extracted/android/app/src/main/AndroidManifest.xml
+        run: unzip -q "NarayaniDeviGirlsCollegeERP-Android-source-fixed.zip" -d extracted
       - name: Build APK
-        working-directory: extracted/android
+        working-directory: extracted/NarayaniDeviGirlsCollegeERP-Android-fixed/android
         run: gradle assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
         with:
           name: narayani-erp-debug-apk
-          path: extracted/android/app/build/outputs/apk/debug/app-debug.apk
+          path: extracted/NarayaniDeviGirlsCollegeERP-Android-fixed/android/app/build/outputs/apk/debug/app-debug.apk
