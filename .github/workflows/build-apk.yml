@@ -1,10 +1,8 @@
 name: Build Android APK
-
 on:
   workflow_dispatch:
   push:
-    branches: [main, master]
-
+    branches: [main]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,9 +12,8 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - name: Extract project
-        run: unzip -q "NarayaniDeviGirlsCollegeERP-Android-source-fixed.zip" -d extracted
-      - name: Build APK
+      - run: unzip -q "NarayaniDeviGirlsCollegeERP-Android-source-fixed.zip" -d extracted
+      - name: Build
         working-directory: extracted/NarayaniDeviGirlsCollegeERP-Android-fixed/android
         run: gradle assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
