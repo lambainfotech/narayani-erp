@@ -15,11 +15,15 @@ jobs:
           distribution: temurin
           java-version: '17'
       - name: Set Android SDK paths
-        run: echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> $GITHUB_ENV
+        run: echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
       - name: Accept Android SDK licenses
-        run: yes | /usr/local/lib/android/sdk/cmdline-tools/16.0/bin/sdkmanager --sdk_root=/usr/local/lib/android/sdk --licenses
+        run: |
+          SDKMANAGER=$(find "$ANDROID_SDK_ROOT" -name sdkmanager -type f | head -1)
+          yes | "$SDKMANAGER" --sdk_root="$ANDROID_SDK_ROOT" --licenses
       - name: Install SDK packages
-        run: /usr/local/lib/android/sdk/cmdline-tools/16.0/bin/sdkmanager --sdk_root=/usr/local/lib/android/sdk "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+        run: |
+          SDKMANAGER=$(find "$ANDROID_SDK_ROOT" -name sdkmanager -type f | head -1)
+          "$SDKMANAGER" --sdk_root="$ANDROID_SDK_ROOT" "platform-tools" "platforms;android-35" "build-tools;35.0.0"
       - name: Extract Android project
         run: unzip -q "NarayaniDeviGirlsCollegeERP-GitHub-Build (1).zip" -d extracted
       - name: Build APK
